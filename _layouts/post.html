@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} | Terence Law</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --gold: #C9A84C; --gold-dim: rgba(201,168,76,0.15); --black: #0A0A0A; --white: #F5F5F5; --gray: #888; --nav-h: 70px; }
+  body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  
+  /* Nav */
+  nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; z-index: 100; background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent); }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px; color: var(--gold); text-decoration: none; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a { color: var(--gray); text-decoration: none; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  /* Article Header */
+  .article-header { padding: 160px 48px 60px; max-width: 900px; margin: 0 auto; text-align: center; }
+  .back-link { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 40px; transition: color 0.3s; }
+  .back-link:hover { color: var(--gold); }
+  .back-link::before { content: '←'; font-size: 14px; }
+  .post-date { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .post-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 6vw, 72px); letter-spacing: 2px; color: var(--white); line-height: 1.1; }
+
+  /* Article Body */
+  .article-body { max-width: 800px; margin: 0 auto; padding: 0 48px 100px; }
+  .article-body h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--white); margin: 60px 0 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+  .article-body p { font-size: 15px; color: #ccc; line-height: 1.8; margin-bottom: 24px; }
+  .article-body ul { margin-bottom: 32px; padding-left: 20px; }
+  .article-body li { font-size: 15px; color: #ccc; line-height: 1.8; margin-bottom: 12px; }
+  .article-body img { max-width: 100%; border-radius: 4px; margin: 32px 0; border: 1px solid rgba(255,255,255,0.1); }
+
+  /* Video Embed */
+  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; margin: 48px 0; border: 1px solid rgba(201,168,76,0.3); border-radius: 4px; overflow: hidden; background: #111; }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+  
+  footer { padding: 40px 48px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; width: 100%; }
+  footer p, footer a { font-size: 12px; color: var(--gray); text-decoration: none; letter-spacing: 1px; }
+  @media (max-width: 768px) { nav, .article-header, .article-body { padding-left: 24px; padding-right: 24px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="nav-logo">TL</a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/services.html">Services</a></li>
+    <li><a href="/blog.html" class="active">Blog</a></li>
+    <li><a href="/contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="article-header">
+  <a href="/blog.html" class="back-link">Back to Blog</a>
+  <span class="post-date">{{ page.date | date: "%B %d, %Y" }}</span>
+  <h1 class="post-title">{{ page.title }}</h1>
+</header>
+
+<article class="article-body">
+  {% if page.youtube_link %}
+  <div class="video-wrap">
+    <!-- This automatically grabs your YouTube link from the dashboard -->
+    <iframe src="{{ page.youtube_link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  {% endif %}
+
+  <!-- This injects all the text and images you write in the CMS -->
+  {{ content }}
+</article>
+
+<footer>
+  <p>&copy; 2026 Terence Law.</p>
+</footer>
+</body>
+</html>
