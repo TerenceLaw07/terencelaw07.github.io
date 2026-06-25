@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terence Law — Musician | Audio Engineer | Producer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-dim: rgba(201,168,76,0.15);
+    --gold-glow: rgba(201,168,76,0.4);
+    --black: #0A0A0A;
+    --white: #F5F5F5;
+    --gray: #888;
+    --nav-h: 70px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.2s ease, height 0.2s ease;
+  }
+  body:hover #cursor { opacity: 1; }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* Hero */
+  #hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Waterfall image stack */
+  .waterfall {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: drift 18s linear infinite;
+  }
+  @keyframes drift {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+  .waterfall-img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    filter: brightness(0.35) sepia(0.2);
+    flex-shrink: 0;
+  }
+  /* Fallback gradient panels since we don't have real photos yet */
+  .waterfall-panel {
+    width: 100%;
+    height: 320px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #111 50%, #1c1a14 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .waterfall-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(201,168,76,0.03) 2px,
+      rgba(201,168,76,0.03) 4px
+    );
+  }
+  .panel-label {
+    position: absolute;
+    bottom: 20px; left: 24px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.3);
+  }
+
+  /* Overlay fade */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 100%);
+    z-index: 1;
+  }
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, transparent, var(--black));
+    z-index: 2;
+  }
+
+  /* Hero text */
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 14vw, 200px);
+    line-height: 0.9;
+    letter-spacing: 8px;
+    color: var(--white);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 1.2s ease 0.3s forwards;
+  }
+  .hero-name span { color: var(--gold); }
+  .hero-byline {
+    font-size: clamp(11px, 1.5vw, 14px);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.7s forwards;
+  }
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 28px auto;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.9s forwards;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 1.4s forwards;
+  }
+  .hero-scroll span {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SoundCloud section */
+  #listen {
+    padding: 100px 48px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 4px;
+    margin-bottom: 48px;
+    color: var(--white);
+  }
+  .soundcloud-wrap {
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #111;
+    padding: 8px;
+  }
+  .soundcloud-placeholder {
+    height: 166px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px dashed rgba(201,168,76,0.25);
+    border-radius: 3px;
+  }
+  .soundcloud-placeholder p {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.5);
+  }
+  .sc-icon { font-size: 32px; color: rgba(201,168,76,0.4); }
+
+  /* Footer strip */
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p { font-size: 12px; color: var(--gray); letter-spacing: 1px; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 20px; }
+    #listen { padding: 60px 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">TL</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="waterfall">
+    <div class="waterfall-panel"><span class="panel-label">Studio A</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Neve Genesys Black</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Recording</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Mixing</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Studio A</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Neve Genesys Black</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Recording</span></div>
+    <div class="waterfall-panel"><span class="panel-label">Mixing</span></div>
+  </div>
+
+  <div class="hero-content">
+    <h1 class="hero-name">Terence<br><span>Law</span></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-byline">Musician &nbsp;|&nbsp; Audio Engineer &nbsp;|&nbsp; Producer</p>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- LISTEN -->
+<section id="listen">
+  <p class="section-eyebrow reveal">Listen</p>
+  <h2 class="section-title reveal">My Work</h2>
+  <div class="soundcloud-wrap reveal">
+    <!-- REPLACE THIS with your actual SoundCloud embed code -->
+    <!-- Go to SoundCloud → your track → Share → Embed → copy the iframe code and paste it here -->
+    <div class="soundcloud-placeholder">
+      <p>&#9835; &nbsp; Paste your SoundCloud embed here</p>
+      <p style="font-size:10px; opacity:0.5;">SoundCloud → Share → Embed → copy iframe</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Terence Law. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="services.html">Services</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '6px'; cursor.style.height = '6px';
+      ring.style.width = '52px'; ring.style.height = '52px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px'; cursor.style.height = '10px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
