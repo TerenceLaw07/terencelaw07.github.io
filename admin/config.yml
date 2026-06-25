@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main # Make sure your GitHub branch is actually named "main" (or change this to "master" if it's master)
+  branch: main
 
 media_folder: "uploads"
 public_folder: "/uploads"
@@ -12,6 +12,7 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Featured Image", name: "thumbnail", widget: "image", required: false}
