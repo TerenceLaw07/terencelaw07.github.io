@@ -400,6 +400,12 @@
     });
   }, { threshold: 0.15 });
   reveals.forEach(r => obs.observe(r));
+  // Remove custom cursor on touch devices
+  if (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window) {
+    document.getElementById('cursor')?.remove();
+    document.getElementById('cursor-ring')?.remove();
+    document.body.style.cursor = 'auto';
+  }
 </script>
 </body>
 </html>
