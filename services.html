@@ -144,6 +144,7 @@
     padding: 2px;
     background: linear-gradient(135deg, rgba(201,168,76,0.5), transparent, rgba(201,168,76,0.1));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
@@ -240,6 +241,33 @@
     .nav-links { gap: 20px; }
     #services-page { padding: 120px 24px 80px; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
+    /* ── Mobile / touch fixes ── */
+  @media (hover: none), (pointer: coarse) {
+    body { cursor: auto !important; }
+    #cursor, #cursor-ring { display: none !important; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 18px; height: 60px; }
+    .nav-logo { font-size: 19px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 10px; letter-spacing: 1px; }
+
+    .hero-socials { gap: 28px; margin-bottom: 22px; }
+    .hero-socials svg { width: 26px; height: 26px; }
+
+    .hero-name { font-size: 68px; letter-spacing: 4px; }
+    .hero-divider { margin: 20px auto; }
+    .hero-byline {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      line-height: 2;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .hero-scroll { bottom: 28px; }
+    .scroll-line { height: 34px; }
+  }
   }
 </style>
 </head>
